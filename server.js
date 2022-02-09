@@ -34,7 +34,7 @@ async function run() {
             const foodItem = req.body;
             const result = await foodItemCollection.insertOne(foodItem);
             res.json(result);
-        })
+        });
 
         // GET API For ALL Food Item
         app.get('/FoodItem', async (req, res) => {
@@ -59,7 +59,7 @@ async function run() {
             }
             const result = await foodItemCollection.updateOne(filter, updateDoc, options);
             res.json(result);
-        })
+        });
 
         // DLETE FOOD API
         app.delete('/FoodItem/:id', async (req, res) => {
@@ -74,7 +74,7 @@ async function run() {
             const studentData = req.body;
             const result = await studentCollection.insertOne(studentData);
             res.json(result);
-        })
+        });
 
         // GET API For ALL Students
         app.get('/Student', async (req, res) => {
@@ -96,7 +96,7 @@ async function run() {
             }
             const result = await studentCollection.updateMany(filter, updateDoc);
             res.json(result);
-        })
+        });
 
         // PUT API FOR UPDATE STUDENT DATA
         app.put('/Student/:id', async (req, res) => {
@@ -107,8 +107,8 @@ async function run() {
             const updatedAge = req.body.age;
             const updatedHallName = req.body.hallName;
             const updatedStatus = req.body.status;
-            const filter = { _id: ObjectId(id) };
 
+            const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
@@ -122,7 +122,17 @@ async function run() {
             }
             const result = await studentCollection.updateOne(filter, updateDoc, options);
             res.json(result);
-        })
+        });
+
+        // DLETE FOOD API
+        app.delete('/Student/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await studentCollection.deleteOne(query);
+            res.json(result);
+        });
+
+
 
     } finally {
         // await client.close();
