@@ -83,7 +83,7 @@ async function run() {
             res.send(allStudents);
         });
 
-        // PUT API FOR UPDATE Status Each
+        // PUT API FOR UPDATE Status by Bulk action
         app.put('/Student/', async (req, res) => {
             const updatedStatus = req.body.isStatus;
             const studentID = req.body.studentId;
@@ -95,6 +95,32 @@ async function run() {
                 }
             }
             const result = await studentCollection.updateMany(filter, updateDoc);
+            res.json(result);
+        })
+
+        // PUT API FOR UPDATE STUDENT DATA
+        app.put('/Student/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedFullName = req.body.fullName;
+            const updatedRoll = req.body.roll;
+            const updatedClass = req.body.class;
+            const updatedAge = req.body.age;
+            const updatedHallName = req.body.hallName;
+            const updatedStatus = req.body.status;
+            const filter = { _id: ObjectId(id) };
+
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    fullName: updatedFullName,
+                    roll: updatedRoll,
+                    class: updatedClass,
+                    age: updatedAge,
+                    hallName: updatedHallName,
+                    status: updatedStatus,
+                }
+            }
+            const result = await studentCollection.updateOne(filter, updateDoc, options);
             res.json(result);
         })
 
