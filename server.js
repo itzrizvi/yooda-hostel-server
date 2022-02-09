@@ -83,7 +83,20 @@ async function run() {
             res.send(allStudents);
         });
 
-
+        // PUT API FOR UPDATE Status Each
+        app.put('/Student/', async (req, res) => {
+            const updatedStatus = req.body.isStatus;
+            const studentID = req.body.studentId;
+            const studentIdArray = studentID.map(id => new ObjectId(id));
+            const filter = { _id: { $in: studentIdArray } };
+            const updateDoc = {
+                $set: {
+                    status: updatedStatus,
+                }
+            }
+            const result = await studentCollection.updateMany(filter, updateDoc);
+            res.json(result);
+        })
 
     } finally {
         // await client.close();
