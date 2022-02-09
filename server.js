@@ -132,6 +132,28 @@ async function run() {
             res.json(result);
         });
 
+        // GET api for getting student by roll
+        app.get('/Student/:roll', async (req, res) => {
+            const studentRoll = req.params.roll;
+            const query = { roll: studentRoll };
+            const searchedStudent = await studentCollection.find(query).toArray();
+            res.json(searchedStudent);
+        });
+
+        // POST API FOR SERVED FOOD
+        app.post('/Distribution', async (req, res) => {
+            const servedFood = req.body;
+            const result = await distributionCollection.insertOne(servedFood);
+            res.json(result);
+        });
+
+        // GET api for getting distributed food
+        app.get('/Distribution/', async (req, res) => {
+            const cursor = distributionCollection.find({});
+            const servedStudent = await cursor.toArray();
+            res.send(servedStudent);
+        });
+
 
 
     } finally {
