@@ -69,7 +69,19 @@ async function run() {
             res.json(result);
         });
 
+        // POST API FOR ADDING STUDENT
+        app.post('/Student', async (req, res) => {
+            const studentData = req.body;
+            const result = await studentCollection.insertOne(studentData);
+            res.json(result);
+        })
 
+        // GET API For ALL Students
+        app.get('/Student', async (req, res) => {
+            const cursor = studentCollection.find({});
+            const allStudents = await cursor.toArray();
+            res.send(allStudents);
+        });
 
 
 
